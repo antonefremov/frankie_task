@@ -8,9 +8,17 @@ import (
 
 // InputPayload represents the expected object posted to the /isgood path
 type InputPayload struct {
-	CheckType       string `form:"checkType" json:"checkType" binding:"required"`
-	ActivityType    string `form:"activityType" json:"activityType" binding:"required"`
-	CheckSessionKey string `form:"checkSessionKey" json:"checkSessionKey" binding:"required"`
+	CheckType       string         `json:"checkType" binding:"required,oneof=DEVICE BIOMETRIC COMBO"`
+	ActivityType    string         `json:"activityType" binding:"required,oneof=SIGNUP LOGIN PAYMENT CONFIRMATION"`
+	CheckSessionKey string         `json:"checkSessionKey" binding:"required"`
+	ActivityData    []ActivityData `json:"activityData" binding:"required,dive"`
+}
+
+// ActivityData represents the internal object for the InputPayload type above
+type ActivityData struct {
+	KvpKey   string `json:"kvpKey" binding:"required"`
+	KvpValue string `json:"kvpValue" binding:"required"`
+	KvpType  string `json:"kvpType" binding:"required,oneof='general.string' 'general.integer' 'general.float' 'general.bool'"`
 }
 
 func main() {
