@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,6 +29,8 @@ func main() {
 
 	// map to store the previously used Session Keys
 	mKeys := make(uniqueSessionKeysType, 10)
+	// mutex to let multiple threads work with the mKeys map above safely
+	mu := &sync.Mutex{}
 
 	r.POST("/isgood", func(c *gin.Context) {
 		var json InputPayload
@@ -44,8 +47,12 @@ func main() {
 			return
 		}
 
+		// lock the mutex to let only one thread to go in
+		mu.Lock()
 		// add a new Session Key to the map of previously used keys
 		mKeys[json.CheckSessionKey] = true
+		// unlock the mutex
+		mu.Unlock()
 
 		// respond with valid JSON
 		c.JSON(http.StatusOK, json)
