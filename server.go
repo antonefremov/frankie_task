@@ -21,16 +21,33 @@ type ActivityData struct {
 	KvpType  string `json:"kvpType" binding:"required,oneof='general.string' 'general.integer' 'general.float' 'general.bool'"`
 }
 
+type uniqueSessionKeysType map[string]bool
+
 func main() {
 	r := gin.Default()
+
+	// map to store the previously used Session Keys
+	mKeys := make(uniqueSessionKeysType, 10)
+
 	r.POST("/isgood", func(c *gin.Context) {
 		var json InputPayload
 
+		// parse JSON in automated mode according to the definition above
 		if err := c.ShouldBindJSON(&json); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 
+		// check that the Session Key has not been already used
+		if _, keyExist := mKeys[json.CheckSessionKey]; keyExist {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Session Key has already been used before"})
+			return
+		}
+
+		// add a new Session Key to the map of previously used keys
+		mKeys[json.CheckSessionKey] = true
+
+		// respond with valid JSON
 		c.JSON(http.StatusOK, json)
 	})
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
