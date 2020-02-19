@@ -6,16 +6,16 @@ The server is based on the [Gin](https://github.com/gin-gonic/gin) framework.
 
 ### Quick start
 
-1. Clone this project into your Go path directory
-2. Install the dependency below
+1. Clone this project into a directory
+2. Open the project folder in terminal and install the required dependencies by running the command below
 ```sh
-$ go get -u github.com/gin-gonic/gin
+$ go mod tidy
 ```
-3. Open the project folder in your terminal and run
+3. In the project folder run the following terminal command
 ```sh
 $ go run .
 ```
-As a result a server should start up on default port :8080
+As a result a server instance should start up on default port :8080
 
 4. Now the server is ready to receive your POST requests on ```http://localhost:8080/isgood```. Open another terminal window and send the following curl request containing valid JSON payload
 ```sh
