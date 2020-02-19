@@ -12,7 +12,7 @@ The server is based on the [Gin](https://github.com/gin-gonic/gin) framework.
 $ go get -u github.com/gin-gonic/gin
 ```
 3. Open the project folder in your terminal and run
-```go
+```sh
 $ go run server.go handlers.go model.go
 ```
 As a result a server should start up on default port :8080
