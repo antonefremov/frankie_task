@@ -14,7 +14,7 @@ type InputPayload struct {
 type ActivityData struct {
 	KvpKey   string `json:"kvpKey" binding:"required"`
 	KvpValue string `json:"kvpValue" binding:"required"`
-	KvpType  string `json:"kvpType" binding:"required,oneof='general.string' 'general.integer' 'general.float' 'general.bool'"`
+	KvpType  string `json:"kvpType" binding:"required,oneof=general.string general.integer general.float general.bool"`
 }
 
 type uniqueSessionKeysType map[string]bool
