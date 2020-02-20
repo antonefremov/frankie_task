@@ -2,9 +2,26 @@
 
 This is a simple RESTful service that listens to a default port and accepts POST requests on the ```/isgood``` path. It accepts JSON payloads described in the [Swagger file](https://github.com/antonefremov/frankie_task/blob/master/swagger.yaml) definition.
 
-The server is based on the [Gin](https://github.com/gin-gonic/gin) framework.
+The server is based on the [Gin](https://github.com/gin-gonic/gin) web framework.
 
-### Quick start
+## Quick start
+
+### Docker
+
+1. Pull the image and run my docker image by
+```sh
+$ docker pull antonefremov/frankie_task
+```
+
+2. Run the image
+```sh
+$ docker run --publish 8080:8080 -it antonefremov/frankie_task
+```
+The server should be up and running on default port :8080
+
+3. Server is ready to receive your POST requests on ```http://localhost:8080/isgood```
+
+### Code base
 
 1. Clone this project into a directory
 2. Open the project folder in terminal and install the required dependencies by running the command below
@@ -17,7 +34,11 @@ $ go run .
 ```
 As a result a server instance should start up on default port :8080
 
-4. Now the server is ready to receive your POST requests on ```http://localhost:8080/isgood```. Open another terminal window and send the following curl request containing valid JSON payload
+4. Server is ready to receive your POST requests on ```http://localhost:8080/isgood```
+
+### Sample requests
+
+Open another terminal window and send the following curl request containing valid JSON payload
 ```sh
 $ curl -v -X POST   http://localhost:8080/isgood   -H 'content-type: application/json'   -d '{ "checkType": "DEVICE", "activityType": "SIGNUP", "checkSessionKey": "1234", "activityData": [{ "kvpKey": "key1", "kvpValue": "value1", "kvpType": "general.string" }, { "kvpKey": "key2", "kvpValue": "value2", "kvpType": "general.integer" }] }'
 ```
@@ -68,15 +89,9 @@ Code coverage of the /isgood path [handler](https://github.com/antonefremov/fran
 
 ![Code coverage image](/handler_code_coverage.jpg)
 
-## Docker
+### New Docker image
 
-You can pull and run my docker image by
-```sh
-$ docker pull antonefremov/frankie_task
-$ docker run --publish 8080:8080 -it antonefremov/frankie_task
-```
-
-I created my docker image by running the following steps:
+A new Docker image can be created by going through the following steps:
 
 1. Build the project into the ```main``` executable
 ```sh
