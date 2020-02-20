@@ -67,3 +67,28 @@ $ go test -coverprofile=cover.out && go tool cover -html=cover.out -o cover.html
 Code coverage of the /isgood path [handler](https://github.com/antonefremov/frankie_task/blob/master/handlers.go#L10) is ```100%```
 
 ![Code coverage image](/handler_code_coverage.jpg)
+
+## Docker
+
+You can pull and run my docker image by
+```sh
+$ docker pull antonefremov/frankie_task
+$ docker run --publish 8080:8080 -it antonefremov/frankie_task
+```
+
+I created my docker image by running the following steps:
+
+1. Build the project into the ```main``` executable
+```sh
+$ CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+```
+
+2. Build the image
+```sh
+docker build -t <your_dockerhub_username>/frankie_task .
+```
+
+3. Run the image
+```sh
+docker run --publish 8080:8080 -it <your_dockerhub_username>/frankie_task
+```
